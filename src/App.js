@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  //Input state 만들어주기
+  const [write, setWrite] = useState("");
+  //box안에 들어가는 text state 만들어주기
+  const [texts, setTexts] = useState([]);
+
+  const ClickButton = () => {
+    const newTexts = {
+      id: texts.length + 1,
+      text: write,
+    };
+    setTexts([...texts, newTexts]);
+    setWrite("");
+  };
+
+  const writeChangeHandler = (event) => {
+    setWrite(event.target.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="head">
+        <input value={write} onChange={writeChangeHandler} />
+        <button onClick={ClickButton}>추가하기</button>
+      </div>
+      <h2>Todo List</h2>
+      <div className="Box">
+        {texts.map((item) => {
+          return (
+            <div key={item.id} className="textBox">
+              {item.text}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
